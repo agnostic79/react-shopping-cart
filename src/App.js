@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Filter from "./components/Filter";
 import Products from "./components/Products";
 
 import data from "./data.json";
@@ -13,6 +14,31 @@ class App extends Component {
     };
   }
 
+  sortProducts = (event) => {
+    const sort = event.target.value;
+
+    this.setState((state) => ({
+      sort,
+      products: state.products.slice().sort((a, b) => {
+        return event.target.value === "highest" ? b.price - a.price : event.target.value === "lowest" ? a.price - b.price : a._id < b._id ? 1 : -1;
+      }),
+    }));
+  };
+
+  filterProducts = (event) => {
+    if (event.target.value === "") {
+      this.setState({
+        size: event.target.value,
+        products: data.products,
+      });
+    } else {
+      this.setState({
+        size: event.target.value,
+        products: data.products.filter((product) => product.availableSizes.includes(event.target.value)),
+      });
+    }
+  };
+
   render() {
     return (
       <div className="grid-container">
@@ -22,6 +48,7 @@ class App extends Component {
         <main>
           <div className="content">
             <div className="main">
+              <Filter count={this.state.products.length} size={this.state.size} sort={this.state.sort} filterProducts={this.filterProducts} sortProducts={this.sortProducts} />
               <Products products={this.state.products} />
             </div>
             <div className="sidebar">Cart Items</div>
