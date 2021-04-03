@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import Fade from "react-reveal/Fade";
+
 import { formatCurrency } from "../util";
 
 export default class Cart extends Component {
@@ -32,24 +34,26 @@ export default class Cart extends Component {
       <div>
         {cartItems.length === 0 ? <div className="cart cart-header">Cart is empty</div> : <div className="cart cart-header">You have {cartItems.length} items in the cart</div>}
         <div className="cart">
-          <ul className="cart-items">
-            {cartItems.map((item) => (
-              <li key={item._id}>
-                <div>
-                  <img src={item.image} alt={item.title} />
-                </div>
-                <div>
-                  <div>{item.title}</div>
-                  <div className="right">
-                    {formatCurrency(item.price)} x {item.count}{" "}
-                    <button className="button" onClick={() => this.props.removeFromCart(item)}>
-                      Remove
-                    </button>
+          <Fade left cascade>
+            <ul className="cart-items">
+              {cartItems.map((item) => (
+                <li key={item._id}>
+                  <div>
+                    <img src={item.image} alt={item.title} />
                   </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+                  <div>
+                    <div>{item.title}</div>
+                    <div className="right">
+                      {formatCurrency(item.price)} x {item.count}{" "}
+                      <button className="button" onClick={() => this.props.removeFromCart(item)}>
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </Fade>
         </div>
         {cartItems.length !== 0 && (
           <div className="cart">
@@ -64,27 +68,29 @@ export default class Cart extends Component {
 
         {this.state.showCheckout && (
           <div className="cart">
-            <form onSubmit={this.createOrder} className="form">
-              <ul className="form-container">
-                <li>
-                  <label>Email</label>
-                  <input type="email" required onChange={this.handleInput} name="email" value={this.state.email} />
-                </li>
-                <li>
-                  <label>Name</label>
-                  <input type="text" required onChange={this.handleInput} name="name" value={this.state.name} />
-                </li>
-                <li>
-                  <label>Address</label>
-                  <input type="text" required onChange={this.handleInput} name="address" value={this.state.address} />
-                </li>
-                <li>
-                  <button type="submit" className="button primary">
-                    Checkout
-                  </button>
-                </li>
-              </ul>
-            </form>
+            <Fade right cascade>
+              <form onSubmit={this.createOrder} className="form">
+                <ul className="form-container">
+                  <li>
+                    <label>Email</label>
+                    <input type="email" required onChange={this.handleInput} name="email" value={this.state.email} />
+                  </li>
+                  <li>
+                    <label>Name</label>
+                    <input type="text" required onChange={this.handleInput} name="name" value={this.state.name} />
+                  </li>
+                  <li>
+                    <label>Address</label>
+                    <input type="text" required onChange={this.handleInput} name="address" value={this.state.address} />
+                  </li>
+                  <li>
+                    <button type="submit" className="button primary">
+                      Checkout
+                    </button>
+                  </li>
+                </ul>
+              </form>
+            </Fade>
           </div>
         )}
       </div>
