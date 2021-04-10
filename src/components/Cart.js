@@ -1,9 +1,11 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import Fade from "react-reveal/Fade";
+import { removeFromCart } from "../actions/cartActions";
 
 import { formatCurrency } from "../util";
 
-export default class Cart extends Component {
+class Cart extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,6 +32,7 @@ export default class Cart extends Component {
   };
   render() {
     const { cartItems } = this.props;
+    console.log(cartItems);
     return (
       <div>
         {cartItems.length === 0 ? <div className="cart cart-header">Cart is empty</div> : <div className="cart cart-header">You have {cartItems.length} items in the cart</div>}
@@ -97,3 +100,13 @@ export default class Cart extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  cartItems: state.cart.cartItems,
+});
+
+const mapDispatchToProps = {
+  removeFromCart,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);
