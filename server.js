@@ -13,6 +13,8 @@ mongoose.connect("mongodb://localhost/react-shopping-cart-db", {
   useUnifiedTopology: true,
 });
 
+// ============= Product ===============
+
 //define Schema
 const productSchema = new mongoose.Schema({
   _id: { type: String, default: shortid.generate },
@@ -25,6 +27,8 @@ const productSchema = new mongoose.Schema({
 
 //compile into model
 const Product = mongoose.model("products", productSchema);
+
+//methods
 
 app.get("/api/products", async (req, res) => {
   const products = await Product.find({});
@@ -48,6 +52,39 @@ app.delete(
     console.log("A product has been deleted");
   }
 );
+
+// ============= Order ===============
+
+const orderSchema = new mongoose.Schema(
+  {
+    _id: { type: String, default: shortid.generate },
+    email: String,
+    name: String,
+    address: String,
+    total: Number,
+    cartItems: [
+      {
+        _id: String,
+        title: String,
+        price: Number,
+        count: Number,
+      },
+    ],
+  },
+  {
+    timestamp: true,
+  }
+);
+
+const Order = mongoose.model("order", orderSchema);
+
+app.post("/api/orders", async (req, res) => {
+  if (!req.body.name || !req.body.email || !req.body.address || !req.body.total || !req.body.cartItems) {
+    return res.send({ message: "Data required" });
+  }
+  const order = await Order(req.body).save();
+  res.send(order);
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

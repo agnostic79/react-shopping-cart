@@ -61,7 +61,7 @@ class Products extends Component {
           )}
         </Fade>
         {product && (
-          <Modal isOpen={true} onRequestClose={this.closeModal}>
+          <Modal isOpen={true} onRequestClose={this.closeModal} ariaHideApp={false}>
             <Zoom>
               <button className="close-modal" onClick={this.closeModal}>
                 x
@@ -75,8 +75,8 @@ class Products extends Component {
                   <p>{product.description}</p>
                   <p>
                     Available Sizes:{" "}
-                    {product.availableSizes.map((item) => (
-                      <span>
+                    {product.availableSizes.map((item, i) => (
+                      <span key={i}>
                         {" "}
                         <button className="button">{item}</button>
                       </span>
