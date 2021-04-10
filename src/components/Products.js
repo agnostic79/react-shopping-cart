@@ -7,6 +7,7 @@ import { formatCurrency } from "../util";
 import { connect } from "react-redux";
 
 import { fetchProducts } from "../actions/productActions";
+import { addToCart } from "../actions/cartActions";
 
 class Products extends Component {
   constructor(props) {
@@ -103,4 +104,8 @@ class Products extends Component {
   }
 }
 
-export default connect((state) => ({ products: state.products.filteredItems }), { fetchProducts })(Products);
+const mapStateToProps = (state) => ({ products: state.products.filteredItems });
+
+const mapDispatchToProps = { fetchProducts, addToCart };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Products);
