@@ -33,5 +33,3 @@ class App extends Component {
 }
 
 export default App;
-
-//4:09
